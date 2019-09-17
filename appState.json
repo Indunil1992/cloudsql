@@ -1,0 +1,144 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "27508899-f208-43f6-9361-1a0b45f27676": {
+        "id": "27508899-f208-43f6-9361-1a0b45f27676",
+        "parent": null,
+        "name": "cloudsql",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "ca8fd686-57d0-4e2b-b473-27202adf3018",
+          "0eca1d5f-7f7b-4124-bf0a-4e96f7e8cf6c"
+        ],
+        "isRemovable": false,
+        "filePath": "cloudsql"
+      },
+      "ca8fd686-57d0-4e2b-b473-27202adf3018": {
+        "id": "ca8fd686-57d0-4e2b-b473-27202adf3018",
+        "parent": "27508899-f208-43f6-9361-1a0b45f27676",
+        "name": "function.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "cloudsql/function.js",
+        "code": "let SL_GCP = require('slappforge-sdk-gcp');\nlet sqlConnMgr = require('./SqlConnMgr');\nconst sql = new SL_GCP.SQL(sqlConnMgr);\n\nexports.handler = function (request, response) {\n    // You must always end/destroy the DB connection after it's used.\n    sql.beginTransaction({\n        instanceIdentifier: 'instanceid1'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n            console.log(\"errrrrrrrrrrrrr\");\n        }\n    });\nconnection.commit();\n    response.send({ \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8",
+          "timeout": 60,
+          "memory": 128,
+          "triggerType": 0,
+          "handler": "handler"
+        },
+        "triggers": []
+      },
+      "1f41deec-edde-47ba-988e-faaf1d5c312f": {
+        "id": "1f41deec-edde-47ba-988e-faaf1d5c312f",
+        "parent": null,
+        "name": "index.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": false,
+        "filePath": "index.js",
+        "code": "// This file is used to register all your cloud functions in GCP.\n// DO NOT EDIT/DELETE THIS, UNLESS YOU KNOW WHAT YOU ARE DOING.\n\nexports.cloudsqlfunction = require(\"./cloudsql/function.js\").handler;"
+      },
+      "75516925-c6e8-4288-b731-3fef012a8d6e": {
+        "id": "75516925-c6e8-4288-b731-3fef012a8d6e",
+        "parent": null,
+        "name": "main.py",
+        "type": "PYTHON_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": false,
+        "filePath": "main.py",
+        "code": "# This file is used to register all your cloud functions in GCP.\n# DO NOT EDIT/DELETE THIS, UNLESS YOU KNOW WHAT YOU ARE DOING.\n\n"
+      },
+      "0eca1d5f-7f7b-4124-bf0a-4e96f7e8cf6c": {
+        "id": "0eca1d5f-7f7b-4124-bf0a-4e96f7e8cf6c",
+        "parent": "27508899-f208-43f6-9361-1a0b45f27676",
+        "name": "SqlConnMgr.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "cloudsql/SqlConnMgr.js",
+        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"instanceid1\"] = {\n        host: \"34.74.81.116\",\n        port: \"3306\",\n        user: \"root\",\n        password: process.env.Password_sqlinstanceid1,\n        database: \"mysql\"\n    };\n};"
+      }
+    },
+    "rootNode": "27508899-f208-43f6-9361-1a0b45f27676",
+    "openFiles": [
+      "ca8fd686-57d0-4e2b-b473-27202adf3018"
+    ],
+    "currentFileId": "ca8fd686-57d0-4e2b-b473-27202adf3018",
+    "resources": {
+      "sqlinstanceid1": {
+        "name": "sqlinstanceid1",
+        "type": "SQL",
+        "config": {
+          "mode": 1,
+          "instance": {
+            "name": "instanceid1",
+            "host": "34.74.81.116",
+            "port": 3306,
+            "user": "root",
+            "password": "sachithra",
+            "database": "mysql"
+          }
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": null
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "AWS_REGION",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      },
+      {
+        "lambdaId": "ca8fd686-57d0-4e2b-b473-27202adf3018",
+        "varKey": "Password_sqlinstanceid1",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": true
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "slappforge-sdk-gcp": {
+          "name": "slappforge-sdk-gcp",
+          "language": "javascript",
+          "version": "0.0.1",
+          "dev": false,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "cloudsql",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east1",
+    "platform": "GCP",
+    "platformRegions": {
+      "AWS": "us-east-1"
+    },
+    "lastSave": 1568710597097
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "cloudsql",
+      "url": "https://github.com/Indunil1992/cloudsql"
+    }
+  }
+}
