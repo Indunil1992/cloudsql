@@ -11,7 +11,7 @@ exports.handler = function (request, response) {
             throw error;
         }
     });
-
+connection.end();
     response.send({ "message": "Successfully executed" });
 
 }
