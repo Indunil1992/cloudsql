@@ -23,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "cloudsql/function.js",
-        "code": "let SL_GCP = require('slappforge-sdk-gcp');\nlet sqlConnMgr = require('./SqlConnMgr');\nconst sql = new SL_GCP.SQL(sqlConnMgr);\n\nexports.handler = function (request, response) {\n    // You must always end/destroy the DB connection after it's used.\n    sql.beginTransaction({\n        instanceIdentifier: 'instanceid1'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n            // console.log(\"errrrrrrrrrrrrr\");\n        }\n        connection.end();\n    });\n    \n    response.send({ \"message\": \"Successfully executed\" });\n\n}",
+        "code": "let SL_GCP = require('slappforge-sdk-gcp');\nlet sqlConnMgr = require('./SqlConnMgr');\nconst sql = new SL_GCP.SQL(sqlConnMgr);\n\nexports.handler = function (request, response) {\n    // You must always end/destroy the DB connection after it's used.\n    sql.beginTransaction({\n        instanceIdentifier: 'instanceid1'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n        connection.end();\n    });\n    \n    response.send({ \"message\": \"Successfully executed\" });\n\n}",
         "config": {
           "runtime": "nodejs8",
           "timeout": 60,
@@ -31,7 +31,12 @@
           "triggerType": 0,
           "handler": "handler"
         },
-        "triggers": []
+        "triggers": [
+          {
+            "resourceName": "http-trigger",
+            "config": {}
+          }
+        ]
       },
       "1f41deec-edde-47ba-988e-faaf1d5c312f": {
         "id": "1f41deec-edde-47ba-988e-faaf1d5c312f",
@@ -87,6 +92,11 @@
             "database": "information_schema"
           }
         }
+      },
+      "http-trigger": {
+        "name": "http-trigger",
+        "type": "http-trigger",
+        "config": {}
       }
     },
     "customTemplate": {
@@ -132,7 +142,7 @@
     "platformRegions": {
       "AWS": "us-east-1"
     },
-    "lastSave": 1568711479321
+    "lastSave": 1568711595860
   },
   "VCS_STATE": {
     "provider": "GitHub",
