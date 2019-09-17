@@ -12,7 +12,7 @@ exports.handler = function (request, response) {
             console.log("errrrrrrrrrrrrr");
         }
     });
-
-    response.send({ "message": "Successfully executed" });
    connection.end();
+    response.send({ "message": "Successfully executed" });
+
 }
