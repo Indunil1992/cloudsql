@@ -10,7 +10,6 @@ exports.handler = function (request, response) {
         if (error) {
             throw error;
         }
-
     });
 
     response.send({ "message": "Successfully executed" });
