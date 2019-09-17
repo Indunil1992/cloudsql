@@ -12,6 +12,7 @@ exports.handler = function (request, response) {
             console.log("errrrrrrrrrrrrr");
         }
     });
-connection.commit();
+
     response.send({ "message": "Successfully executed" });
+    connection.commit();
 }
