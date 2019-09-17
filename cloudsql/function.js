@@ -11,8 +11,9 @@ exports.handler = function (request, response) {
             throw error;
             // console.log("errrrrrrrrrrrrr");
         }
+        connection.end();
     });
-    connection.end();
+    
     response.send({ "message": "Successfully executed" });
 
 }
