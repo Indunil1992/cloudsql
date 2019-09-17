@@ -9,7 +9,7 @@ exports.handler = function (request, response) {
     }, function (error, connection) {
         if (error) {
             throw error;
-            console.log("errrrrrrrrrrrrr");
+            // console.log("errrrrrrrrrrrrr");
         }
     });
    connection.end();
