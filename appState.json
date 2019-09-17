@@ -23,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "cloudsql/function.js",
-        "code": "let SL_GCP = require('slappforge-sdk-gcp');\nlet sqlConnMgr = require('./SqlConnMgr');\nconst sql = new SL_GCP.SQL(sqlConnMgr);\n\nexports.handler = function (request, response) {\n    // You must always end/destroy the DB connection after it's used.\n    sql.beginTransaction({\n        instanceIdentifier: 'instanceid1'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n    });\nconnection.end();\n    response.send({ \"message\": \"Successfully executed\" });\n\n}",
+        "code": "let SL_GCP = require('slappforge-sdk-gcp');\nlet sqlConnMgr = require('./SqlConnMgr');\nconst sql = new SL_GCP.SQL(sqlConnMgr);\n\nexports.handler = function (request, response) {\n    // You can pass the existing connection to this function.\n    // A new connection will be created if it's not present as the third param.\n    // You must always end/destroy the DB connection after it's used.\n    sql.query({\n        instanceIdentifier: 'instanceid1',\n        query: 'INSERT INTO Client(id,age,city);',\n        inserts: [12, 28, \"kandy\"]\n    }, function (error, results, connection) {\n        if (error) {\n            throw error;\n        } else {\n            // use `results` to do your magic\n        }\n        connection.end();\n    });\n\n    response.send({ \"message\": \"Successfully executed\" });\n\n}",
         "config": {
           "runtime": "nodejs8",
           "timeout": 60,
@@ -94,7 +94,7 @@
             "port": 3306,
             "user": "mysql.sys",
             "password": "sachithra",
-            "database": "mysql"
+            "database": "information_schema"
           }
         }
       }
@@ -142,7 +142,7 @@
     "platformRegions": {
       "AWS": "us-east-1"
     },
-    "lastSave": 1568712259966
+    "lastSave": 1568712466133
   },
   "VCS_STATE": {
     "provider": "GitHub",
