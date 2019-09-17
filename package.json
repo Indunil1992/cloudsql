@@ -1,8 +1,6 @@
 {
   "name": "cloudsql",
   "version": "1.0.0",
-  "dependencies": {
-    "slappforge-sdk-gcp": "0.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {}
 }

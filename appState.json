@@ -9,7 +9,8 @@
         "isDirectory": true,
         "children": [
           "ca8fd686-57d0-4e2b-b473-27202adf3018",
-          "0eca1d5f-7f7b-4124-bf0a-4e96f7e8cf6c"
+          "0eca1d5f-7f7b-4124-bf0a-4e96f7e8cf6c",
+          "96431226-c913-4bc4-8dbc-f40e8c0d10af"
         ],
         "isRemovable": false,
         "filePath": "cloudsql"
@@ -23,7 +24,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "cloudsql/function.js",
-        "code": "let SL_GCP = require('slappforge-sdk-gcp');\nlet sqlConnMgr = require('./SqlConnMgr');\nconst sql = new SL_GCP.SQL(sqlConnMgr);\n\nexports.handler = function (request, response) {\n    // You can pass the existing connection to this function.\n    // A new connection will be created if it's not present as the third param.\n    // You must always end/destroy the DB connection after it's used.\n    sql.query({\n        instanceIdentifier: 'instanceid1',\n        query: 'INSERT INTO Client(id,age,city);',\n        inserts: [12, 28, \"kandy\"]\n    }, function (error, results, connection) {\n        if (error) {\n            throw error;\n        } else {\n            // use `results` to do your magic\n        }\n        connection.end();\n    });\n\n    response.send({ \"message\": \"Successfully executed\" });\n\n}",
+        "code": "let google = require('googleapis').google;\nlet _auth = require('./Authorizer');\nconst datastore = google.datastore('v1');\n\nexports.handler = function (request, response) {\n    datastore.projects.beginTransaction({\n        projectId: process.env.GCP_PROJECT,\n        resource: {\n            transactionOptions: {\n                readWrite: {}\n            }\n        }\n    }).then(response => {\n        console.log(response.data);           // successful response\n        /*\n        response.data = {\n            \"transaction\": \"<transaction ID>\"\n        }\n        */\n    })\n        .catch(err => {\n            console.log(err, err.stack); // an error occurred\n        });\n\n\n    response.send({ \"message\": \"Successfully executed\" });\n\n}",
         "config": {
           "runtime": "nodejs8",
           "timeout": 60,
@@ -70,6 +71,17 @@
         "isRemovable": true,
         "filePath": "cloudsql/SqlConnMgr.js",
         "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"instanceid1\"] = {\n        host: \"34.74.81.116\",\n        port: \"3306\",\n        user: \"mysql.sys\",\n        password: process.env.Password_sqlinstanceid1,\n        database: \"information_schema\"\n    };\n};"
+      },
+      "96431226-c913-4bc4-8dbc-f40e8c0d10af": {
+        "id": "96431226-c913-4bc4-8dbc-f40e8c0d10af",
+        "parent": "27508899-f208-43f6-9361-1a0b45f27676",
+        "name": "Authorizer.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "cloudsql/Authorizer.js",
+        "code": "const google = require(\"googleapis\").google;\n\ngoogle.options({auth: new google.auth.Compute()});"
       }
     },
     "rootNode": "27508899-f208-43f6-9361-1a0b45f27676",
@@ -83,20 +95,10 @@
         "type": "http-trigger",
         "config": {}
       },
-      "sqlinstanceid1": {
-        "name": "sqlinstanceid1",
-        "type": "SQL",
-        "config": {
-          "mode": 1,
-          "instance": {
-            "name": "instanceid1",
-            "host": "34.74.81.116",
-            "port": 3306,
-            "user": "mysql.sys",
-            "password": "sachithra",
-            "database": "information_schema"
-          }
-        }
+      "datastore": {
+        "name": "datastore",
+        "type": "datastore",
+        "config": {}
       }
     },
     "customTemplate": {
@@ -122,15 +124,7 @@
       }
     ],
     "packageJSON": {
-      "dependencies": {
-        "slappforge-sdk-gcp": {
-          "name": "slappforge-sdk-gcp",
-          "language": "javascript",
-          "version": "0.0.1",
-          "dev": false,
-          "notRemovable": false
-        }
-      }
+      "dependencies": {}
     }
   },
   "PROJECT_META": {
@@ -142,7 +136,7 @@
     "platformRegions": {
       "AWS": "us-east-1"
     },
-    "lastSave": 1568712466133
+    "lastSave": 1568712626451
   },
   "VCS_STATE": {
     "provider": "GitHub",
