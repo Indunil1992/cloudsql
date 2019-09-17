@@ -23,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "cloudsql/function.js",
-        "code": "let SL_GCP = require('slappforge-sdk-gcp');\nlet sqlConnMgr = require('./SqlConnMgr');\nconst sql = new SL_GCP.SQL(sqlConnMgr);\n\nexports.handler = function (request, response) {\n    // You must always end/destroy the DB connection after it's used.\n    sql.beginTransaction({\n        instanceIdentifier: 'instanceid1'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n            console.log(\"errrrrrrrrrrrrr\");\n        }\n    });\n\n    response.send({ \"message\": \"Successfully executed\" });\n    connection.commit();\n}",
+        "code": "let SL_GCP = require('slappforge-sdk-gcp');\nlet sqlConnMgr = require('./SqlConnMgr');\nconst sql = new SL_GCP.SQL(sqlConnMgr);\n\nexports.handler = function (request, response) {\n    // You must always end/destroy the DB connection after it's used.\n    sql.beginTransaction({\n        instanceIdentifier: 'instanceid1'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n            console.log(\"errrrrrrrrrrrrr\");\n        }\n    });\n\n    response.send({ \"message\": \"Successfully executed\" });\n   connection.end();\n}",
         "config": {
           "runtime": "nodejs8",
           "timeout": 60,
@@ -132,7 +132,7 @@
     "platformRegions": {
       "AWS": "us-east-1"
     },
-    "lastSave": 1568710717021
+    "lastSave": 1568711070882
   },
   "VCS_STATE": {
     "provider": "GitHub",

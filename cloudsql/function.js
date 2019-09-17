@@ -14,5 +14,5 @@ exports.handler = function (request, response) {
     });
 
     response.send({ "message": "Successfully executed" });
-    connection.commit();
+   connection.end();
 }
