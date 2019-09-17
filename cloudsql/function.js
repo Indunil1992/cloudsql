@@ -8,15 +8,11 @@ exports.handler = function (request, response) {
         instanceIdentifier: 'instanceid1'
     }, function (error, connection) {
         if (error) {
-            console.log(error);
             throw error;
         }
-        else {
-     console.log(connection);
-        }
-        connection.end();
+
     });
-    
+
     response.send({ "message": "Successfully executed" });
 
 }
